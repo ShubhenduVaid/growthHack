@@ -9,6 +9,7 @@ type ReviewCardProps = {
   onBack: () => void;
   onEditStep: (step: number) => void;
   onSubmit: () => void;
+  onReset: () => void;
 };
 
 export const ReviewCard = ({
@@ -18,7 +19,8 @@ export const ReviewCard = ({
   submissionPayload,
   onBack,
   onEditStep,
-  onSubmit
+  onSubmit,
+  onReset
 }: ReviewCardProps) => (
   <section className="review-card" data-testid="review-card">
     <div className="review-card__header">
@@ -56,11 +58,18 @@ export const ReviewCard = ({
     </div>
 
     {submittedAt ? (
-      <RecommendationResults
-        recommendation={recommendation}
-        reviewSections={reviewSections}
-        submittedAt={submittedAt}
-      />
+      <>
+        <RecommendationResults
+          recommendation={recommendation}
+          reviewSections={reviewSections}
+          submittedAt={submittedAt}
+        />
+        <div className="start-over">
+          <button type="button" className="button button--secondary" onClick={onReset} data-testid="start-over-button">
+            Start over with new answers
+          </button>
+        </div>
+      </>
     ) : null}
 
     <details className="payload-panel" data-testid="payload-panel">

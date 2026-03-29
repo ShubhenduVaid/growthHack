@@ -30,6 +30,9 @@ export type OnboardingFlowAction =
   | {
       type: "submitted";
       submittedAt: string;
+    }
+  | {
+      type: "reset";
     };
 
 const clampStep = (step: number): number => Math.min(Math.max(step, 0), reviewStepIndex);
@@ -159,5 +162,7 @@ export const onboardingFlowReducer = (
         showErrors: false
       };
     }
+    case "reset":
+      return createOnboardingFlowState({});
   }
 };

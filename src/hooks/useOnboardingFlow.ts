@@ -3,7 +3,7 @@ import { questionnaire } from "../data/questionnaire";
 import { createPlanInput, getCompletionCount, validateQuestion } from "../lib/questionnaire";
 import { getQaFixtureKey, isQaModeEnabled, resolveQaInitialState } from "../lib/qa";
 import { createGrowthRecommendation } from "../lib/recommendations";
-import { loadAnswers, saveAnswers } from "../lib/storage";
+import { clearAnswers, loadAnswers, saveAnswers } from "../lib/storage";
 import {
   buildReviewSections,
   createOnboardingFlowState,
@@ -26,6 +26,12 @@ export const useOnboardingFlow = () => {
   useEffect(() => {
     saveAnswers(state.answers);
   }, [state.answers]);
+
+  useEffect(() => {
+    document.title = state.submittedAt
+      ? "Your Growth Plan — Paperclip"
+      : "Paperclip — Find your next growth move";
+  }, [state.submittedAt]);
 
   const completionCount = getCompletionCount(state.answers);
   const progressValue = Math.round((completionCount / questionnaire.length) * 100);
@@ -66,6 +72,11 @@ export const useOnboardingFlow = () => {
     });
   };
 
+  const reset = () => {
+    clearAnswers();
+    dispatch({ type: "reset" });
+  };
+
   return {
     ...state,
     qaMode,
@@ -83,6 +94,7 @@ export const useOnboardingFlow = () => {
     goToStep,
     goBack,
     continueStep,
-    submit
+    submit,
+    reset
   };
 };

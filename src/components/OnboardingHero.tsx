@@ -18,27 +18,35 @@ export const OnboardingHero = ({
   const activeQuestion = questionnaire[activeStep];
   const activeLabel = activeQuestion ? activeQuestion.stepLabel : "Review";
 
+  const isIntro = activeStep === 0;
+
   return (
-    <section className="hero">
+    <section className={`hero${isIntro ? "" : " hero--compact"}`}>
       <div className="hero__copy">
         <p className="hero__eyebrow">Guided beta for founder-led SaaS</p>
         <h1>Find the next growth move for your SaaS in one short brief.</h1>
-        <p className="hero__body">
-          Share your stage, revenue, goals, channels, and real constraints. Paperclip returns one focused first-pass
-          recommendation, why it fits, and the assumptions to pressure-test before you invest more budget or time.
-        </p>
+        {isIntro ? (
+          <>
+            <p className="hero__body">
+              Share your stage, revenue, goals, channels, and real constraints. Paperclip returns one focused first-pass
+              recommendation, why it fits, and the assumptions to pressure-test before you invest more budget or time.
+            </p>
 
-        <ul className="hero__highlights" aria-label="What happens in this flow">
-          <li>Built for teams that need one credible next move, not a long generic strategy deck.</li>
-          <li>Your answers stay visible through review and results so the recommendation stays grounded.</li>
-          <li>Expect one primary bet, practical next actions, and clear scope on what this plan does not claim.</li>
-        </ul>
+            <ul className="hero__highlights" aria-label="What happens in this flow">
+              <li>Built for teams that need one credible next move, not a long generic strategy deck.</li>
+              <li>Your answers stay visible through review and results so the recommendation stays grounded.</li>
+              <li>Expect one primary bet, practical next actions, and clear scope on what this plan does not claim.</li>
+            </ul>
+          </>
+        ) : null}
       </div>
 
       <aside className="hero__panel">
-        <p className="hero__panel-note">
-          Start with the active question. The goal is a credible next experiment, not a complete growth strategy.
-        </p>
+        {isIntro ? (
+          <p className="hero__panel-note">
+            Start with the active question. The goal is a credible next experiment, not a complete growth strategy.
+          </p>
+        ) : null}
         <div className="hero__compact">
           <div>
             <span className="hero__compact-label">Current step</span>
@@ -63,7 +71,6 @@ export const OnboardingHero = ({
                 <span>{index + 1}</span>
                 <div>
                   <strong>{question.stepLabel}</strong>
-                  <small>{question.prompt}</small>
                 </div>
               </button>
             </li>
@@ -73,7 +80,6 @@ export const OnboardingHero = ({
               <span>{questionnaire.length + 1}</span>
               <div>
                 <strong>Review</strong>
-                <small>Confirm answers and generate recommendations</small>
               </div>
             </button>
           </li>

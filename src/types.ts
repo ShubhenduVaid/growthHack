@@ -53,6 +53,12 @@ export type PlanInput = {
 
 export type RecommendationEffort = "low" | "medium" | "high";
 
+export type ReviewSection = {
+  id: string;
+  label: string;
+  value: string;
+};
+
 export type GrowthBet = {
   title: string;
   rationale: string;

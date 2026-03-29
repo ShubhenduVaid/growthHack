@@ -9,7 +9,11 @@ type QuestionCardProps = {
 
 export const QuestionCard = ({ question, answer, error, onChange }: QuestionCardProps) => {
   return (
-    <section className="question-card" aria-labelledby={`question-${question.id}`}>
+    <section
+      className="question-card"
+      aria-labelledby={`question-${question.id}`}
+      data-testid={`question-card-${question.id}`}
+    >
       <div className="question-card__eyebrow">
         <span>{question.stepLabel}</span>
         {question.required ? <span className="question-card__required">Required</span> : null}
@@ -31,6 +35,7 @@ export const QuestionCard = ({ question, answer, error, onChange }: QuestionCard
                   type="button"
                   className={`choice-card ${selected ? "choice-card--selected" : ""}`}
                   onClick={() => onChange(option.id)}
+                  data-testid={`answer-${question.id}-${option.id}`}
                 >
                   <strong>{option.label}</strong>
                   {option.description ? <span>{option.description}</span> : null}
@@ -49,6 +54,7 @@ export const QuestionCard = ({ question, answer, error, onChange }: QuestionCard
                   <input
                     type="checkbox"
                     checked={selected}
+                    data-testid={`answer-${question.id}-${option.id}`}
                     onChange={() => {
                       const nextValue = selected
                         ? values.filter((value) => value !== option.id)
@@ -71,6 +77,7 @@ export const QuestionCard = ({ question, answer, error, onChange }: QuestionCard
               value={typeof answer === "string" ? answer : ""}
               placeholder={question.placeholder}
               maxLength={question.maxLength}
+              data-testid={`answer-${question.id}`}
               onChange={(event) => onChange(event.target.value)}
               rows={5}
             />
@@ -89,6 +96,7 @@ export const QuestionCard = ({ question, answer, error, onChange }: QuestionCard
               min={question.min}
               max={question.max}
               value={typeof answer === "string" ? answer : ""}
+              data-testid={`answer-${question.id}`}
               onChange={(event) => onChange(event.target.value)}
             />
           </label>

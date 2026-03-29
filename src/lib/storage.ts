@@ -1,7 +1,7 @@
 import { sanitizeAnswers } from "./questionnaire";
 import type { QuestionnaireAnswers } from "../types";
 
-const storageKey = "growth-plan-mvp/answers";
+export const storageKey = "growth-plan-mvp/answers";
 
 export const loadAnswers = (): QuestionnaireAnswers => {
   if (typeof window === "undefined") {
@@ -22,4 +22,20 @@ export const saveAnswers = (answers: QuestionnaireAnswers): void => {
   }
 
   window.localStorage.setItem(storageKey, JSON.stringify(sanitizeAnswers(answers)));
+};
+
+export const clearAnswers = (): void => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.removeItem(storageKey);
+};
+
+export const writeRawAnswers = (rawValue: string): void => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(storageKey, rawValue);
 };

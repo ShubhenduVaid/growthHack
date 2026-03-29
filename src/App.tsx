@@ -39,6 +39,7 @@ const App = () => {
             onBack={flow.goBack}
             onEditStep={flow.goToStep}
             onSubmit={flow.submit}
+            onReset={flow.reset}
           />
         )}
       </section>

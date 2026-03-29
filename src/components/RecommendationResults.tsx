@@ -1,4 +1,6 @@
+import { useState } from "react";
 import type { GrowthRecommendation, ReviewSection } from "../types";
+import { formatRecommendationAsText } from "../lib/formatRecommendation";
 
 type RecommendationResultsProps = {
   recommendation: GrowthRecommendation;
@@ -29,10 +31,19 @@ export const RecommendationResults = ({
   reviewSections,
   submittedAt
 }: RecommendationResultsProps) => {
+  const [copied, setCopied] = useState(false);
   const primaryBet = recommendation.bets[0];
   const supportingBets = recommendation.bets.slice(1);
   const fitReasons = buildFitReasons(reviewSections, recommendation.profile.primaryMotion);
   const assumptions = buildAssumptions(reviewSections, recommendation);
+
+  const handleCopy = () => {
+    const text = formatRecommendationAsText(recommendation, reviewSections);
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   return (
     <section className="results-panel" aria-labelledby="results-title" data-testid="recommendation-results">
@@ -41,7 +52,12 @@ export const RecommendationResults = ({
           <p className="results-panel__eyebrow">Focused recommendation</p>
           <h3 id="results-title">Your next growth move</h3>
         </div>
-        <p className="results-panel__timestamp">Generated {submittedAt}</p>
+        <div className="results-panel__actions">
+          <button type="button" className="button button--secondary button--small" onClick={handleCopy}>
+            {copied ? "Copied!" : "Copy plan"}
+          </button>
+          <p className="results-panel__timestamp">Generated {submittedAt}</p>
+        </div>
       </div>
 
       <p className="results-panel__summary">{recommendation.summary}</p>

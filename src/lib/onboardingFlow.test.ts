@@ -100,6 +100,21 @@ describe("onboarding flow reducer", () => {
     expect(nextState.showErrors).toBe(true);
   });
 
+  it("resets to a clean initial state", () => {
+    const state = {
+      ...createOnboardingFlowState(validAnswers),
+      activeStep: reviewStepIndex,
+      submittedAt: "2026-03-29 03:52:00"
+    };
+
+    const nextState = onboardingFlowReducer(state, { type: "reset" });
+
+    expect(nextState.activeStep).toBe(0);
+    expect(nextState.submittedAt).toBeNull();
+    expect(nextState.showErrors).toBe(false);
+    expect(Object.values(nextState.answers).every((v) => v === undefined || v === "" || (Array.isArray(v) && v.length === 0))).toBe(true);
+  });
+
   it("stores the submission timestamp when all answers are valid", () => {
     const state = {
       ...createOnboardingFlowState(validAnswers),
